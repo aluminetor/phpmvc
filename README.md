@@ -1,6 +1,6 @@
 # Ejercicios PHP
 
-Una aplicación Laravel 13 con navegación para los once ejercicios MVC. Esta primera entrega incluye las tareas persistentes en MySQL, la calculadora de propinas y el generador de contraseñas. Los módulos 4 al 11 muestran una página de estado y sus demás endpoints devuelven HTTP 501 hasta que se implemente su lógica.
+Una aplicación Laravel 13 con navegación para los once ejercicios MVC. Están disponibles Tareas, Propinas, Contraseñas y Gastos. Los módulos 5 al 11 muestran una página de estado y sus demás endpoints devuelven HTTP 501 hasta que se implemente su lógica.
 
 ## Ejecutar en Windows con WampServer
 
@@ -53,16 +53,16 @@ php artisan key:generate
     'CronometroController'
 ) | ForEach-Object { php artisan make:controller $_ }
 
-php artisan make:model Tarea -m
+@('Tarea', 'Gasto') | ForEach-Object { php artisan make:model $_ -m }
 ```
 
 `make:model -m` genera el modelo Eloquent y la migración juntos. Las clases `CalculoPropina` y `GeneradorContrasenas` contienen la lógica de sus respectivos módulos y no requieren tablas.
 
-Los siguientes comandos generan bases para los modelos y migraciones previstos en la segunda etapa. Las tablas necesitan su esquema funcional antes de que se ejecuten sus migraciones.
+Los siguientes comandos generan bases para los modelos y migraciones de los módulos pendientes. Define los esquemas de las tablas antes de ejecutar sus migraciones.
 
 ```powershell
 @(
-    'Gasto', 'Servicio', 'Reserva', 'Nota', 'Evento', 'Receta',
+    'Servicio', 'Reserva', 'Nota', 'Evento', 'Receta',
     'RecetaGuardada', 'PuntajeMemoria', 'Encuesta', 'OpcionEncuesta',
     'VotoEncuesta', 'Cronometro', 'Vuelta'
 ) | ForEach-Object { php artisan make:model $_ -m }
@@ -70,6 +70,6 @@ Los siguientes comandos generan bases para los modelos y migraciones previstos e
 
 ## Rutas de filtros
 
-- `GET /gastos/resumen?mes=2026-11` prevé el resumen mensual.
+- `GET /gastos/resumen?mes=2026-11` muestra el total mensual y los subtotales por categoría. El formulario acepta punto o coma decimal.
 - `GET /notas?q=idea&categoria=trabajo` prevé la búsqueda y el filtro de notas.
 - `GET /recetas?tipo=almuerzo&ingrediente=arroz` prevé el filtro de recetas.
