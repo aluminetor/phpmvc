@@ -70,6 +70,7 @@ Route::prefix('memoria')->name('memoria.')->controller(MemoriaController::class)
     Route::get('/', 'index')->name('index');
     Route::post('/partidas', 'iniciar')->name('iniciar');
     Route::get('/tablero', 'tablero')->name('tablero');
+    Route::post('/tablero', 'voltear')->name('voltear');
     Route::post('/puntajes', 'guardarPuntaje')->name('puntajes.store');
 });
 
