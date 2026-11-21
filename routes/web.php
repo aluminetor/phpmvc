@@ -63,6 +63,7 @@ Route::prefix('recetas')->name('recetas.')->controller(RecetaController::class)-
     Route::post('/', 'store')->name('store');
     Route::get('/{receta}', 'show')->name('show');
     Route::post('/{receta}/guardado', 'guardar')->name('guardar');
+    Route::delete('/{receta}/guardado', 'quitarGuardado')->name('quitar-guardado');
 });
 
 Route::prefix('memoria')->name('memoria.')->controller(MemoriaController::class)->group(function () {

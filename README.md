@@ -1,6 +1,6 @@
 # Ejercicios PHP
 
-Una aplicación Laravel 13 con navegación para los once ejercicios MVC. Están disponibles Tareas, Propinas, Contraseñas, Gastos, Reservas, Notas y Eventos. Los módulos 8 al 11 muestran una página de estado y sus demás endpoints devuelven HTTP 501 hasta que se implemente su lógica.
+Una aplicación Laravel 13 con navegación para los once ejercicios MVC. Están disponibles Tareas, Propinas, Contraseñas, Gastos, Reservas, Notas, Eventos y Recetas. Los módulos 9 al 11 muestran una página de estado y sus demás endpoints devuelven HTTP 501 hasta que se implemente su lógica.
 
 ## Ejecutar en Windows con WampServer
 
@@ -53,7 +53,7 @@ php artisan key:generate
     'CronometroController'
 ) | ForEach-Object { php artisan make:controller $_ }
 
-@('Tarea', 'Gasto', 'Servicio', 'Reserva', 'Nota', 'Evento') | ForEach-Object { php artisan make:model $_ -m }
+@('Tarea', 'Gasto', 'Servicio', 'Reserva', 'Nota', 'Evento', 'Receta', 'RecetaGuardada') | ForEach-Object { php artisan make:model $_ -m }
 ```
 
 `make:model -m` genera el modelo Eloquent y la migración juntos. Las clases `CalculoPropina` y `GeneradorContrasenas` contienen la lógica de sus respectivos módulos y no requieren tablas.
@@ -62,7 +62,7 @@ Los siguientes comandos generan bases para los modelos y migraciones de los mód
 
 ```powershell
 @(
-    'Receta', 'RecetaGuardada', 'PuntajeMemoria', 'Encuesta', 'OpcionEncuesta',
+    'PuntajeMemoria', 'Encuesta', 'OpcionEncuesta',
     'VotoEncuesta', 'Cronometro', 'Vuelta'
 ) | ForEach-Object { php artisan make:model $_ -m }
 ```
@@ -73,4 +73,4 @@ Los siguientes comandos generan bases para los modelos y migraciones de los mód
 - `GET /reservas/disponibilidad` recibe `servicio_id` y `fecha` en formato `AAAA-MM-DD`. El catálogo inicial incluye Asesoría, Atención técnica y Consulta, con citas de 30 minutos de lunes a viernes, de 09:00 a 17:00 en hora de Bogotá.
 - `GET /notas?q=idea&categoria=trabajo` busca la palabra clave en el título y el contenido, y aplica el filtro de categoría.
 - `GET /eventos?mes=2026-11` abre el calendario mensual en hora de Bogotá. Los recordatorios se muestran en el calendario al cargar la página dentro del intervalo elegido.
-- `GET /recetas?tipo=almuerzo&ingrediente=arroz` prevé el filtro de recetas.
+- `GET /recetas?tipo=almuerzo&ingrediente=arroz` combina ambos filtros. Usa `guardadas=1` para consultar los favoritos compartidos en la instalación local. Cada receta publicada tiene su propio enlace.
