@@ -83,7 +83,7 @@ Route::prefix('encuestas')->name('encuestas.')->middleware(IdentificarNavegador:
     Route::get('/{encuesta}/resultados', 'resultados')->name('resultados');
 });
 
-Route::prefix('cronometro')->name('cronometro.')->controller(CronometroController::class)->group(function () {
+Route::prefix('cronometro')->name('cronometro.')->middleware(IdentificarNavegador::class)->controller(CronometroController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/inicio', 'iniciar')->name('iniciar');
     Route::patch('/pausa', 'pausar')->name('pausar');

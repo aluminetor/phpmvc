@@ -1,6 +1,6 @@
 # Ejercicios PHP
 
-Una aplicación Laravel 13 con navegación para los once ejercicios MVC. Están disponibles Tareas, Propinas, Contraseñas, Gastos, Reservas, Notas, Eventos, Recetas, Memoria y Encuestas. Cronómetro muestra una página de estado hasta que se implemente su lógica.
+Una aplicación Laravel 13 que reúne los once ejercicios MVC. Los módulos con datos persistentes usan MySQL.
 
 ## Ejecutar en Windows con WampServer
 
@@ -55,19 +55,14 @@ php artisan key:generate
 
 @(
     'Tarea', 'Gasto', 'Servicio', 'Reserva', 'Nota', 'Evento', 'Receta',
-    'RecetaGuardada', 'PartidaMemoria', 'PuntajeMemoria', 'Encuesta', 'OpcionEncuesta', 'VotoEncuesta'
+    'RecetaGuardada', 'PartidaMemoria', 'PuntajeMemoria', 'Encuesta', 'OpcionEncuesta',
+    'VotoEncuesta', 'Cronometro', 'Vuelta'
 ) | ForEach-Object { php artisan make:model $_ -m }
 ```
 
 `make:model -m` genera el modelo Eloquent y la migración juntos. Las clases `CalculoPropina` y `GeneradorContrasenas` contienen la lógica de sus respectivos módulos y no requieren tablas.
 
-Los siguientes comandos generan bases para los modelos y migraciones del módulo pendiente. Define los esquemas de las tablas antes de ejecutar sus migraciones.
-
-```powershell
-@('Cronometro', 'Vuelta') | ForEach-Object { php artisan make:model $_ -m }
-```
-
-## Rutas de filtros
+## Uso de los módulos
 
 - `GET /gastos/resumen?mes=2026-11` muestra el total mensual y los subtotales por categoría. El formulario acepta punto o coma decimal.
 - `GET /reservas/disponibilidad` recibe `servicio_id` y `fecha` en formato `AAAA-MM-DD`. El catálogo inicial incluye Asesoría, Atención técnica y Consulta, con citas de 30 minutos de lunes a viernes, de 09:00 a 17:00 en hora de Bogotá.
@@ -76,3 +71,4 @@ Los siguientes comandos generan bases para los modelos y migraciones del módulo
 - `GET /recetas?tipo=almuerzo&ingrediente=arroz` combina ambos filtros. Usa `guardadas=1` para consultar los favoritos compartidos en la instalación local. Cada receta publicada tiene su propio enlace.
 - `GET /memoria?dificultad=facil` muestra los diez mejores puntajes del nivel, ordenados por intentos y tiempo. Los niveles fácil, medio y difícil tienen 4, 6 y 8 pares.
 - `/encuestas` permite publicar una pregunta con 2 a 8 opciones y recibe un voto anónimo por navegador. Los resultados muestran los votos y porcentajes por opción.
+- `/cronometro` conserva el tiempo y las vueltas por navegador. La pausa congela el tiempo acumulado, y reiniciar pone el contador a cero y borra sus vueltas.
