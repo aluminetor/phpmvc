@@ -1,6 +1,6 @@
 # Ejercicios PHP
 
-Una aplicación Laravel 13 con navegación para los once ejercicios MVC. Están disponibles Tareas, Propinas, Contraseñas, Gastos, Reservas, Notas, Eventos, Recetas y Memoria. Encuestas y Cronómetro muestran una página de estado y sus demás endpoints devuelven HTTP 501 hasta que se implemente su lógica.
+Una aplicación Laravel 13 con navegación para los once ejercicios MVC. Están disponibles Tareas, Propinas, Contraseñas, Gastos, Reservas, Notas, Eventos, Recetas, Memoria y Encuestas. Cronómetro muestra una página de estado hasta que se implemente su lógica.
 
 ## Ejecutar en Windows con WampServer
 
@@ -55,19 +55,16 @@ php artisan key:generate
 
 @(
     'Tarea', 'Gasto', 'Servicio', 'Reserva', 'Nota', 'Evento', 'Receta',
-    'RecetaGuardada', 'PartidaMemoria', 'PuntajeMemoria'
+    'RecetaGuardada', 'PartidaMemoria', 'PuntajeMemoria', 'Encuesta', 'OpcionEncuesta', 'VotoEncuesta'
 ) | ForEach-Object { php artisan make:model $_ -m }
 ```
 
 `make:model -m` genera el modelo Eloquent y la migración juntos. Las clases `CalculoPropina` y `GeneradorContrasenas` contienen la lógica de sus respectivos módulos y no requieren tablas.
 
-Los siguientes comandos generan bases para los modelos y migraciones de los módulos pendientes. Define los esquemas de las tablas antes de ejecutar sus migraciones.
+Los siguientes comandos generan bases para los modelos y migraciones del módulo pendiente. Define los esquemas de las tablas antes de ejecutar sus migraciones.
 
 ```powershell
-@(
-    'Encuesta', 'OpcionEncuesta',
-    'VotoEncuesta', 'Cronometro', 'Vuelta'
-) | ForEach-Object { php artisan make:model $_ -m }
+@('Cronometro', 'Vuelta') | ForEach-Object { php artisan make:model $_ -m }
 ```
 
 ## Rutas de filtros
@@ -78,3 +75,4 @@ Los siguientes comandos generan bases para los modelos y migraciones de los mód
 - `GET /eventos?mes=2026-11` abre el calendario mensual en hora de Bogotá. Los recordatorios se muestran en el calendario al cargar la página dentro del intervalo elegido.
 - `GET /recetas?tipo=almuerzo&ingrediente=arroz` combina ambos filtros. Usa `guardadas=1` para consultar los favoritos compartidos en la instalación local. Cada receta publicada tiene su propio enlace.
 - `GET /memoria?dificultad=facil` muestra los diez mejores puntajes del nivel, ordenados por intentos y tiempo. Los niveles fácil, medio y difícil tienen 4, 6 y 8 pares.
+- `/encuestas` permite publicar una pregunta con 2 a 8 opciones y recibe un voto anónimo por navegador. Los resultados muestran los votos y porcentajes por opción.

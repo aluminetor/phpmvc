@@ -11,6 +11,7 @@ use App\Http\Controllers\PropinaController;
 use App\Http\Controllers\RecetaController;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\TareaController;
+use App\Http\Middleware\IdentificarNavegador;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/tareas')->name('inicio');
@@ -74,7 +75,7 @@ Route::prefix('memoria')->name('memoria.')->controller(MemoriaController::class)
     Route::post('/puntajes', 'guardarPuntaje')->name('puntajes.store');
 });
 
-Route::prefix('encuestas')->name('encuestas.')->controller(EncuestaController::class)->group(function () {
+Route::prefix('encuestas')->name('encuestas.')->middleware(IdentificarNavegador::class)->controller(EncuestaController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::post('/', 'store')->name('store');
     Route::get('/{encuesta}', 'show')->name('show');
